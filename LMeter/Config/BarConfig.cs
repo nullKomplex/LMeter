@@ -15,7 +15,21 @@ namespace LMeter.Config
 
         public string Name => "Bars";
 
-        private static readonly string[] _jobIconStyleOptions = ["Style 1", "Style 2"];
+        private static string[] _jobIconStyleOptions = new string[] {
+            "Filled Gold",
+            "Framed",
+            "Glowing",
+            "Gear Set",
+
+            "FC Silver",
+            "FC Black",
+            "FC Gold",
+            "FC Orange",
+            "FC Red",
+            "FC Purple",
+            "FC Blue",
+            "FC Green",
+        };
 
         public int BarCount = 8;
         public int BarGaps = 1;
@@ -95,7 +109,7 @@ namespace LMeter.Config
             float textOffset = 5f;
             if (this.ShowJobIcon && combatant.Job != Job.UKN)
             {
-                uint jobIconId = 62000u + (uint)combatant.Job + 100u * (uint)this.JobIconStyle;
+                uint jobIconId = Utils.StyleToOffset((uint)job, this.JobIconStyle);
                 Vector2 jobIconSize = Vector2.One * barHeight;
                 DrawHelpers.DrawIcon(jobIconId, localPos + this.JobIconOffset, jobIconSize, drawList);
                 textOffset = barHeight;
