@@ -11,7 +11,21 @@ namespace LMeter.Config
         public bool Active { get; set; }
         public string Name => "Bars";
 
-        private static readonly string[] _jobIconStyleOptions = ["Style 1", "Style 2"];
+        private static string[] _jobIconStyleOptions = new string[] {
+            "Filled Gold",
+            "Framed",
+            "Glowing",
+            "Gear Set",
+
+            "FC Silver",
+            "FC Black",
+            "FC Gold",
+            "FC Orange",
+            "FC Red",
+            "FC Purple",
+            "FC Blue",
+            "FC Green",
+        };
 
         public int BarHeightType = 0;
         public int BarCount = 8;
