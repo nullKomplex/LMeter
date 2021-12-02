@@ -109,10 +109,18 @@ namespace LMeter.Config
             float textOffset = 5f;
             if (this.ShowJobIcon && combatant.Job != Job.UKN)
             {
-                uint jobIconId = Utils.StyleToOffset((uint)job, this.JobIconStyle);
-                Vector2 jobIconSize = Vector2.One * barHeight;
-                DrawHelpers.DrawIcon(jobIconId, localPos + this.JobIconOffset, jobIconSize, drawList);
-                textOffset = barHeight;
+                uint jobIconId = Utils.StyleToOffset((uint)combatant.Job, this.JobIconStyle);
+                float height = barHeight;
+                Vector2 offset = this.JobIconOffset;
+                if (this.JobIconStyle >= 4)
+                {
+                    float oldheight = height;
+                    height *= 1.6f;
+                    offset.X += (oldheight - height) / 2;
+                    offset.Y += (oldheight - height) / 2;
+                }
+                Vector2 jobIconSize = new Vector2(height, height);
+                DrawHelpers.DrawIcon(jobIconId, localPos + offset, jobIconSize, drawList);
             }
 
             if (this.ShowRankText)
