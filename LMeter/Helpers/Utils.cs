@@ -133,13 +133,29 @@ namespace LMeter.Helpers
             // 2. Arcanist and Machinist are simply in a different location than their job order.
             if (job >= 6) totaloffset += 1u;
             if (job >= 19) totaloffset += 38u;
-            if (job == 26) totaloffset -= 56u;
+            if (job == 26) totaloffset -= 56u; // Arcanist
             if (job >= 27) totaloffset -= 1u;
             if (job >= 29) totaloffset += 33u;
-            if (job == 31) totaloffset += 2u;
+            if (job == 31) totaloffset += 2u; // Machinist
             if (job >= 32) totaloffset -= 1u;
             if (job >= 34) totaloffset += 2u;
             return baseoffset + totaloffset;
+        }
+
+        private const uint glowOffset = 62300u;
+        private static uint GlowColor(uint job)
+        {
+            uint totaloffset = job;
+            // This looks like a mess, but it's because of two reasons:
+            // 1. There are unrelated icons between jobs/classes randomly.
+            // 2. Arcanist and Rogue are simply in a different location than their job order.
+            if (job >=  8) totaloffset += 2u;
+            if (job >= 19) totaloffset += 100u - 20u;
+            if (job == 26) totaloffset -= 100u; // Arcanist
+            if (job >= 27) totaloffset -= 1u;
+            if (job == 29) totaloffset -= 101u; // Rogue
+            if (job >= 30) totaloffset -= 1u;
+            return glowOffset + totaloffset;
         }
 
         public static uint StyleToOffset(uint job, int style)
@@ -155,7 +171,7 @@ namespace LMeter.Helpers
                 5  => FCColor(91521u, job), // FC Black
                 4  => FCColor(91021u, job), // FC Silver
                 3  => 62800u + job, // Gear Set
-                2  => (job >= 19u ? (62400u - 19u) : 62300u) + job, // Glowing
+                2  => GlowColor(job), // Glowing
                 1  => 62100u + job, // Framed
                 0  => 62000u + job, // Filled Gold
                 _  => 62000u + job, // Default to Filled Gold
