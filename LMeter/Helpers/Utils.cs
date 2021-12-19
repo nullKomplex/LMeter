@@ -146,5 +146,14 @@ namespace LMeter.Helpers
                 _  => 62000u + job, // Default to Filled Gold
             };
         }
+        public static bool IsHealingStat(string stat)
+        {
+            // This is likely better handled properly elsewhere but it's out of the scope this quick hack.
+            return stat.ToLower() switch
+            {
+                "hps" or "enchps" or "healingtotal" => true,
+                _ => false,
+            };
+        }
     }
 }

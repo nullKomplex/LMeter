@@ -2,6 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text.RegularExpressions;
+<<<<<<< HEAD
+=======
+using System;
+using LMeter.Helpers;
+>>>>>>> 32b487e (Change all healing numbers to effective healing. Bars likely unaffected (not yet tested).)
 
 namespace LMeter.Act
 {
@@ -52,22 +57,37 @@ namespace LMeter.Act
                 _ => null
             };
 
-            if (memberValue is null)
-            {
-                return string.Empty;
-            }
+                if (propValue is LazyFloat lazyFloat)
+                {
+                    if (!Utils.IsHealingStat(key))
+                    {
+                        bool kilo = !string.IsNullOrEmpty(m.Groups[2].Value);
+                        return lazyFloat.ToString(format, kilo) ?? m.Value;
+                    }
+                    else
+                    {
+                        try
+                        {
+                            float amount = lazyFloat.Value;
+                            object? overHealPct = _fields["overhealpct"].GetValue(_source);
+                            
+                            if (overHealPct is not null)
+                            {
+                                amount *= (100 - float.Parse((overHealPct.ToString() ?? "0%")[0..^1])) / 100;
+                            }
+                            LazyFloat newValue = new(amount);
 
-            if (memberValue is LazyFloat lazyFloat)
-            {
-                bool kilo = !string.IsNullOrEmpty(m.Groups[2].Value);
-                value = lazyFloat.ToString(format, kilo) ?? m.Value;
-            }
-            else
-            {
-                value = memberValue.ToString();
-                if (!string.IsNullOrEmpty(value) &&
-                    int.TryParse(m.Groups[3].Value, out int trim) &&
-                    trim < value.Length)
+                            bool kilo = !string.IsNullOrEmpty(m.Groups[2].Value);
+                            return newValue.ToString(format, kilo) ?? m.Value;
+                        }
+                        catch
+                        {
+                            bool kilo = !string.IsNullOrEmpty(m.Groups[2].Value);
+                            return lazyFloat.ToString(format, kilo) ?? m.Value;
+                        }
+                    }
+                }
+                else
                 {
                     value = memberValue?.ToString().AsSpan(0, trim).ToString();
                 }
