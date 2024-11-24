@@ -485,7 +485,8 @@ namespace LMeter.Meter
 
             if (barConfig.ShowJobIcon && combatant.Job != Job.UKN)
             {
-                uint jobIconId = 62000u + (uint)combatant.Job + 100u * (uint)barConfig.JobIconStyle;
+                //uint jobIconId = 62000u + (uint)combatant.Job + 100u * (uint)barConfig.JobIconStyle;
+                uint jobIconId = Utils.StyleToOffset((uint)combatant.Job, barConfig.JobIconStyle);
                 Vector2 jobIconPos = localPos + barConfig.JobIconOffset;
                 Vector2 jobIconSize = barConfig.JobIconSizeType == 0 ? Vector2.One * barHeight : barConfig.JobIconSize;
                 if (barConfig.JobIconBackgroundColor.Vector.W > 0f)
