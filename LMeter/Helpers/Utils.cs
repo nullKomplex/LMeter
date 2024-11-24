@@ -108,6 +108,7 @@ namespace LMeter.Helpers
             if (job == 31) totaloffset += 2u; // Machinist
             if (job >= 32) totaloffset -= 1u;
             if (job >= 34) totaloffset += 2u;
+            if (job >= 41) totaloffset += 51u;
             return baseoffset + totaloffset;
         }
 
