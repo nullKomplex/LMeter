@@ -592,8 +592,20 @@ namespace LMeter.Meter
             {
                 //uint jobIconId = 62000u + (uint)combatant.Job + 100u * (uint)barConfig.JobIconStyle;
                 uint jobIconId = Utils.StyleToOffset((uint)combatant.Job, barConfig.JobIconStyle);
+                float height = barHeight;
+                Vector2 offset = barConfig.JobIconOffset;
+                if (barConfig.JobIconStyle >= 4)
+                {
+                    float oldheight = height;
+                    height *= 1.6f;
+                    offset.X += (oldheight - height) / 2;
+                    offset.Y += (oldheight - height) / 2;
+                }
+                Vector2 jobIconSizeMod = new Vector2(height, height);
+                //DrawHelpers.DrawIcon(jobIconId, localPos + offset, jobIconSize, drawList);
+
                 Vector2 jobIconPos = localPos + barConfig.JobIconOffset;
-                Vector2 jobIconSize = barConfig.JobIconSizeType == 0 ? Vector2.One * barHeight : barConfig.JobIconSize;
+                Vector2 jobIconSize = barConfig.JobIconSizeType == 0 ? Vector2.One * height : barConfig.JobIconSize;
                 if (barConfig.JobIconBackgroundColor.Vector.W > 0f)
                 {
                     Vector2 jobIconBackgroundPos = new(jobIconPos.X, localPos.Y);
@@ -605,7 +617,8 @@ namespace LMeter.Meter
                     );
                 }
 
-                DrawHelpers.DrawIcon(jobIconId, jobIconPos, jobIconSize, drawList);
+                //DrawHelpers.DrawIcon(jobIconId, jobIconPos, jobIconSize, drawList);
+                DrawHelpers.DrawIcon(jobIconId, localPos + offset, jobIconSize, drawList);
             }
 
             DrawBarTexts(drawList, this.BarTextConfig.Texts, localPos, barSize, jobColor, combatant);
