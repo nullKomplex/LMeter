@@ -11,7 +11,7 @@ namespace LMeter.Config
         public bool Active { get; set; }
         public string Name => "Bars";
 
-        private static string[] _jobIconStyleOptions = new string[] {
+        private static string[] __jobIconStyleOptions = new string[] {
             "Filled Gold",
             "Framed",
             "Glowing",
@@ -162,8 +162,8 @@ namespace LMeter.Config
                     ImGui.Combo(
                         "Job Icon Style",
                         ref this.JobIconStyle,
-                        m_jobIconStyleOptions,
-                        m_jobIconStyleOptions.Length
+                        __jobIconStyleOptions,
+                        __jobIconStyleOptions.Length
                     );
                     DrawHelpers.DrawNestIndicator(1);
                     DrawHelpers.DrawColorSelector("Background Color##JobIcon", this.JobIconBackgroundColor);
